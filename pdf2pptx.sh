@@ -40,7 +40,9 @@ fi
 pptname="$1.pptx.base"
 fout="$1.pptx"
 rm -rf $pptname
-cp -rf "template" $pptname
+cp -r template $pptname
+
+mkdir $pptname/ppt/media
 
 cp ./$tempname/*.png "$pptname/ppt/media/"
 

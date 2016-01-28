@@ -23,3 +23,6 @@ If you're using *OSX* you need to install **ImageMagick** and make sure `convert
 
 If you're using *Windows* you can use *Cygwin*, but if you don't have it already, it is not recommended!
 An alternative solution for *Windows* users is to access a linux box (such as your university servers) to take care of the task.
+
+# Acknowledgement
+Thanks to [Melissa O'Neill](https://www.cs.hmc.edu/~oneill/freesoftware/pdftokeynote.html) for providing a Pdf2Keynote tool for mac which has motivated this small project!

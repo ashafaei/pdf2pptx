@@ -17,4 +17,9 @@ Simply explained, I convert all the slides to high-quality image files first, an
 * You need `convert` from [ImageMagick] (http://www.imagemagick.org/script/binary-releases.php)
 * `zip` and `sed`
 
-If you're using Linux you *probably* already have all the above. If you're using OSX you need to install ImageMagick and make sure `convert` is accessible from your Terminal.
+If you're using *Linux* you *probably* already have all the above.
+
+If you're using *OSX* you need to install **ImageMagick** and make sure `convert` is accessible from your Terminal.
+
+If you're using *Windows* you can use *Cygwin*, but if you don't have it already, it is not recommended!
+An alternative solution for *Windows* users is to access a linux box (such as your university servers) to take care of the task.

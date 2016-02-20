@@ -1,10 +1,10 @@
 # pdf2pptx
 Convert your (Beamer) PDF slides to (Powerpoint) PPTX
 
-So you dont like using Powerpoint and would rather use Latex/Beamer to make your slides,
+So you don't like using Powerpoint and would rather use Latex/Beamer to make your slides,
 however, you have a fancy Surface and you want to use the pen during the presentation? Here is my solution.
 
-This script gets a PDF file as input and generates a Powerpoint PPTX file while preserving the format of the original PDF. Theoretically all PDF files, regardless of the original generator, can be converted to PDF slides with this (not tested though).
+This script gets a PDF file as input and generates a Powerpoint PPTX file while preserving the format of the original PDF. Theoretically all PDF files, regardless of the original generator, can be converted to PPTX slides with this (not tested though).
 
 Simply explained, I convert all the slides to high-quality image files first, and then push them into a Powerpoint project as a slide.
 

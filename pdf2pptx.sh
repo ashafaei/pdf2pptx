@@ -3,6 +3,8 @@
 
 resolution=1024
 density=300
+#colorspace="-depth 8"
+colorspace="-colorspace sRGB -background white -alpha remove"
 makeWide=true
 
 if [ $# -eq 0 ]; then
@@ -28,7 +30,7 @@ if [ -d $tempname ]; then
 fi
 
 mkdir $tempname
-convert -density $density -depth 8 -resize "x${resolution}" $1 ./$tempname/slide.png
+convert -density $density $colorspace -resize "x${resolution}" $1 ./$tempname/slide.png
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"

@@ -19,7 +19,7 @@ Simply explained, I convert all the slides to high-quality image files first, an
 
 If you're using *Linux* you *probably* already have all the above.
 
-If you're using *OSX* you need to install **ImageMagick** and make sure `convert` is accessible from your Terminal.
+If you're using *OSX* you need to install **ImageMagick** and make sure `convert` is accessible from your Terminal. You may also want to take a look [here](https://github.com/ashafaei/pdf2pptx/issues/1) regarding an issue that shows up on *OSX* and its fix.
 
 If you're using *Windows* you can use *Cygwin*, but if you don't have it already, it is not recommended!
 An alternative solution for *Windows* users is to access a linux box (such as your university servers) to take care of the task.

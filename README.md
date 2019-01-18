@@ -46,7 +46,7 @@ to
 <policy domain="coder" rights="read" pattern="PDF" />
 ```
 
-Now it should work. Note that modifying the policy file would require `root` privileges. If you do not have root access on your machine, you can alternatively compile and use and older version of ImageMagick.
+Now it should work. Note that modifying the policy file would require `root` privileges. If you do not have root access on your machine, you can alternatively compile and use an older version of ImageMagick.
 
 
 # Acknowledgement

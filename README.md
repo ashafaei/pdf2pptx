@@ -24,5 +24,30 @@ If you're using *OSX* you need to install **ImageMagick** and make sure `convert
 If you're using *Windows* you can use *Cygwin*, but if you don't have it already, it is not recommended!
 An alternative solution for *Windows* users is to access a linux box (such as your university servers) to take care of the task.
 
+# New issues with ImageMagick
+ImageMagick no longer allows PDF to image conversion. If you get the following error on the test example:
+
+```
+Doing test.pdf
+convert: not authorized `test.pdf' @ error/constitute.c/ReadImage/412.
+convert: no images defined `./test.pdf.temp/slide.png' @ error/convert.c/ConvertImageCommand/3210.
+Error with extraction
+```
+
+in `/etc/ImageMagick-6/policy.xml` or `/etc/ImageMagick/policy.xml`, change:
+
+```XML
+<policy domain="coder" rights="none" pattern="PDF" />
+```
+
+to
+
+```XML
+<policy domain="coder" rights="read" pattern="PDF" />
+```
+
+Now it should work. Note that modifying the policy file would require `root` privileges. If you do not have root access on your machine, you can alternatively compile and use and older version of ImageMagick.
+
+
 # Acknowledgement
 Thanks to [Melissa O'Neill](https://www.cs.hmc.edu/~oneill/freesoftware/pdftokeynote.html) for providing a Pdf2Keynote tool for mac which has motivated this small project!

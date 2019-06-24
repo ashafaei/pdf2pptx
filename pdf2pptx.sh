@@ -48,25 +48,33 @@ mkdir $pptname/ppt/media
 
 cp ./$tempname/*.png "$pptname/ppt/media/"
 
+function call_sed {
+	if [ "$(uname -s)" == "Darwin" ]; then
+		sed -i "" "$@"
+	else
+		sed -i "$@"
+	fi
+}
+
 function add_slide {
 	pat='slide1\.xml\"\/>'
 	id=$1
 	id=$((id+8))
 	entry='<Relationship Id=\"rId'$id'\" Type=\"http:\/\/schemas\.openxmlformats\.org\/officeDocument\/2006\/relationships\/slide\" Target=\"slides\/slide-'$1'\.xml"\/>'
 	rep="${pat}${entry}"
-	sed -i "s/${pat}/${rep}/g" ../_rels/presentation.xml.rels 
+	call_sed "s/${pat}/${rep}/g" ../_rels/presentation.xml.rels
 
 	pat='slide1\.xml\" ContentType=\"application\/vnd\.openxmlformats-officedocument\.presentationml\.slide+xml\"\/>'
 	entry='<Override PartName=\"\/ppt\/slides\/slide-'$1'\.xml\" ContentType=\"application\/vnd\.openxmlformats-officedocument\.presentationml\.slide+xml\"\/>'
 	rep="${pat}${entry}"
-	sed -i "s/${pat}/${rep}/g" ../../\[Content_Types\].xml
+	call_sed "s/${pat}/${rep}/g" ../../\[Content_Types\].xml
 
 	sid=$1
 	sid=$((sid+256))
 	pat='<p:sldIdLst>'
 	entry='<p:sldId id=\"'$sid'\" r:id=\"rId'$id'\"\/>'
 	rep="${pat}${entry}"
-	sed -i "s/${pat}/${rep}/g" ../presentation.xml
+	call_sed "s/${pat}/${rep}/g" ../presentation.xml
 }
 
 function make_slide {
@@ -86,7 +94,7 @@ done
 if [ "$makeWide" = true ]; then
 	pat='<p:sldSz cx=\"9144000\" cy=\"6858000\" type=\"screen4x3\"\/>'
 	wscreen='<p:sldSz cy=\"6858000\" cx=\"12192000\"\/>'
-	sed -i "s/${pat}/${wscreen}/g" ../presentation.xml
+	call_sed "s/${pat}/${wscreen}/g" ../presentation.xml
 fi
 popd
 

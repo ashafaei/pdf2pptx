@@ -19,10 +19,11 @@ Simply explained, I convert all the slides to high-quality image files first, an
 
 If you're using *Linux* you *probably* already have all the above.
 
-If you're using *OSX* you need to install **ImageMagick** and make sure `convert` is accessible from your Terminal. You may also want to take a look [here](https://github.com/ashafaei/pdf2pptx/issues/1) regarding an issue that shows up on *OSX* and its fix.
+If you're using *OSX* you need to install **ImageMagick** and make sure `convert` is accessible from your Terminal.
 
 If you're using *Windows* you can use *Cygwin*, but if you don't have it already, it is not recommended!
-An alternative solution for *Windows* users is to access a linux box (such as your university servers) to take care of the task.
+If you're using *Windows 10*, you can easily set up Ubuntu bash ([More Info](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/)), install ImageMagick and then use the script natively.
+Another solution for *Windows* users is to access a linux box (such as your university servers) to take care of the task.
 
 # New issues with ImageMagick
 ImageMagick no longer allows PDF to image conversion. If you get the following error on the test example:

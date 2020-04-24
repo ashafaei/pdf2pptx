@@ -9,13 +9,13 @@ This script gets a PDF file as input and generates a Powerpoint PPTX file while 
 Simply explained, I convert all the slides to high-quality image files first, and then push them into a Powerpoint project as a slide.
 
 # How to run
-* Copy your pdf file next to the script first.
 * Execute `./pdf2pptx.sh test.pdf` to generate a `test.pdf.pptx` file  (replace `test.pdf` with your filename).
 * By default the output powerpoint project is in the widescreen mode. If your slides are not for widescreen you can alternatively run `./pdf2pptx.sh test.pdf notwide` to generate a 4:3 standard PPTX project.
 
 # Dependencies
 * You need `convert` from [ImageMagick] (http://www.imagemagick.org/script/binary-releases.php)
 * `zip` and `sed`
+* (Optional) `perl`, `python`, or `ruby` if you use a symlink to pdf2pptx.sh
 
 If you're using *Linux* you *probably* already have all the above.
 

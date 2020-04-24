@@ -30,7 +30,7 @@ if [ -d "$tempname" ]; then
 fi
 
 mkdir "$tempname"
-convert -density $density $colorspace -resize "x${resolution}" "$1" ./"$tempname"/slide.png
+convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"
@@ -40,13 +40,13 @@ else
 fi
 
 pptname="$1.pptx.base"
-fout="$1.pptx"
+fout=$(basename "$1.pptx")
 rm -rf "$pptname"
 cp -r $(dirname "$0")/template "$pptname"
 
 mkdir "$pptname"/ppt/media
 
-cp ./"$tempname"/*.png "$pptname/ppt/media/"
+cp "$tempname"/*.png "$pptname/ppt/media/"
 
 function call_sed {
 	if [ "$(uname -s)" == "Darwin" ]; then

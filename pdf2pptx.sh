@@ -24,13 +24,13 @@ fi
 
 echo "Doing $1"
 tempname="$1.temp"
-if [ -d $tempname ]; then
+if [ -d "$tempname" ]; then
 	echo "Removing ${tempname}"
-	rm -rf $tempname
+	rm -rf "$tempname"
 fi
 
-mkdir $tempname
-convert -density $density $colorspace -resize "x${resolution}" $1 ./$tempname/slide.png
+mkdir "$tempname"
+convert -density $density $colorspace -resize "x${resolution}" "$1" ./"$tempname"/slide.png
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"
@@ -41,12 +41,12 @@ fi
 
 pptname="$1.pptx.base"
 fout="$1.pptx"
-rm -rf $pptname
-cp -r template $pptname
+rm -rf "$pptname"
+cp -r template "$pptname"
 
-mkdir $pptname/ppt/media
+mkdir "$pptname"/ppt/media
 
-cp ./$tempname/*.png "$pptname/ppt/media/"
+cp ./"$tempname"/*.png "$pptname/ppt/media/"
 
 function call_sed {
 	if [ "$(uname -s)" == "Darwin" ]; then
@@ -83,7 +83,7 @@ function make_slide {
 	add_slide $1
 }
 
-pushd $pptname/ppt/media/
+pushd "$pptname"/ppt/media/
 count=`ls -ltr | wc -l`
 for (( slide=$count-2; slide>=0; slide-- ))
 do
@@ -98,10 +98,10 @@ if [ "$makeWide" = true ]; then
 fi
 popd
 
-pushd $pptname
-rm -rf ../$fout
-zip -q -r ../$fout .
+pushd "$pptname"
+rm -rf ../"$fout"
+zip -q -r ../"$fout" .
 popd
 
-rm -rf $pptname
-rm -rf $tempname
+rm -rf "$pptname"
+rm -rf "$tempname"

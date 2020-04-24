@@ -24,13 +24,13 @@ fi
 
 echo "Doing $1"
 tempname="$1.temp"
-if [ -d $tempname ]; then
+if [ -d "$tempname" ]; then
 	echo "Removing ${tempname}"
-	rm -rf $tempname
+	rm -rf "$tempname"
 fi
 
-mkdir $tempname
-convert -density $density $colorspace -resize "x${resolution}" $1 ./$tempname/slide.png
+mkdir "$tempname"
+convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"
@@ -39,14 +39,27 @@ else
 	exit
 fi
 
+if (which perl > /dev/null); then
+	# https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac#comment47931362_1115074
+	mypath=$(perl -MCwd=abs_path -le 'print abs_path readlink(shift);' "$0")
+elif (which python > /dev/null); then
+	# https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac#comment42284854_1115074
+	mypath=$(python -c 'import os,sys; print(os.path.realpath(os.path.expanduser(sys.argv[1])))' "$0")
+elif (which ruby > /dev/null); then
+	mypath=$(ruby -e 'puts File.realpath(ARGV[0])' "$0")
+else
+	mypath="$0"
+fi
+mydir=$(dirname "$mypath")
+
 pptname="$1.pptx.base"
-fout="$1.pptx"
-rm -rf $pptname
-cp -r template $pptname
+fout=$(basename "$1.pptx")
+rm -rf "$pptname"
+cp -r "$mydir"/template "$pptname"
 
-mkdir $pptname/ppt/media
+mkdir "$pptname"/ppt/media
 
-cp ./$tempname/*.png "$pptname/ppt/media/"
+cp "$tempname"/*.png "$pptname/ppt/media/"
 
 function call_sed {
 	if [ "$(uname -s)" == "Darwin" ]; then
@@ -83,7 +96,7 @@ function make_slide {
 	add_slide $1
 }
 
-pushd $pptname/ppt/media/
+pushd "$pptname"/ppt/media/
 count=`ls -ltr | wc -l`
 for (( slide=$count-2; slide>=0; slide-- ))
 do
@@ -98,10 +111,10 @@ if [ "$makeWide" = true ]; then
 fi
 popd
 
-pushd $pptname
-rm -rf ../$fout
-zip -q -r ../$fout .
+pushd "$pptname"
+rm -rf ../"$fout"
+zip -q -r ../"$fout" .
 popd
 
-rm -rf $pptname
-rm -rf $tempname
+rm -rf "$pptname"
+rm -rf "$tempname"

@@ -39,10 +39,23 @@ else
 	exit
 fi
 
+if (which perl > /dev/null); then
+	# https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac#comment47931362_1115074
+	mypath=$(perl -MCwd=abs_path -le 'print abs_path readlink(shift);' "$0")
+elif (which python > /dev/null); then
+	# https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac#comment42284854_1115074
+	mypath=$(python -c 'import os,sys; print(os.path.realpath(os.path.expanduser(sys.argv[1])))' "$0")
+elif (which ruby > /dev/null); then
+	mypath=$(ruby -e 'puts File.realpath(ARGV[0])' "$0")
+else
+	mypath="$0"
+fi
+mydir=$(dirname "$mypath")
+
 pptname="$1.pptx.base"
 fout=$(basename "$1.pptx")
 rm -rf "$pptname"
-cp -r $(dirname "$0")/template "$pptname"
+cp -r "$mydir"/template "$pptname"
 
 mkdir "$pptname"/ppt/media
 

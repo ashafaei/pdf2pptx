@@ -42,7 +42,7 @@ fi
 pptname="$1.pptx.base"
 fout="$1.pptx"
 rm -rf "$pptname"
-cp -r template "$pptname"
+cp -r $(dirname "$0")/template "$pptname"
 
 mkdir "$pptname"/ppt/media
 

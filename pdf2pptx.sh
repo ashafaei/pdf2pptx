@@ -30,7 +30,7 @@ if [ -d "$tempname" ]; then
 fi
 
 mkdir "$tempname"
-convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
+convert -density $density $colorspace -quality 75 -resize "x${resolution}" "$1" "$tempname"/slide.jpg
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"
@@ -59,7 +59,7 @@ cp -r "$mydir"/template "$pptname"
 
 mkdir "$pptname"/ppt/media
 
-cp "$tempname"/*.png "$pptname/ppt/media/"
+cp "$tempname"/*.jpg "$pptname/ppt/media/"
 
 function call_sed {
 	if [ "$(uname -s)" == "Darwin" ]; then
@@ -92,7 +92,7 @@ function add_slide {
 
 function make_slide {
 	cp ../slides/slide1.xml ../slides/slide-$1.xml
-	cat ../slides/_rels/slide1.xml.rels | sed "s/image1\.JPG/slide-${slide}.png/g" > ../slides/_rels/slide-$1.xml.rels
+	cat ../slides/_rels/slide1.xml.rels | sed "s/image1\.JPG/slide-${slide}.jpg/g" > ../slides/_rels/slide-$1.xml.rels
 	add_slide $1
 }
 

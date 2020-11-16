@@ -30,7 +30,8 @@ if [ -d "$tempname" ]; then
 fi
 
 mkdir "$tempname"
-convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
+#convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
+pdftoppm -r $density -forcenum -png "$1" "$tempname"/slide
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"
@@ -71,7 +72,7 @@ function call_sed {
 
 function add_slide {
 	pat='slide1\.xml\"\/>'
-	id=$1
+	id=$2
 	id=$((id+8))
 	entry='<Relationship Id=\"rId'$id'\" Type=\"http:\/\/schemas\.openxmlformats\.org\/officeDocument\/2006\/relationships\/slide\" Target=\"slides\/slide-'$1'\.xml"\/>'
 	rep="${pat}${entry}"
@@ -82,7 +83,7 @@ function add_slide {
 	rep="${pat}${entry}"
 	call_sed "s/${pat}/${rep}/g" ../../\[Content_Types\].xml
 
-	sid=$1
+	sid=$2
 	sid=$((sid+256))
 	pat='<p:sldIdLst>'
 	entry='<p:sldId id=\"'$sid'\" r:id=\"rId'$id'\"\/>'
@@ -92,16 +93,20 @@ function add_slide {
 
 function make_slide {
 	cp ../slides/slide1.xml ../slides/slide-$1.xml
-	cat ../slides/_rels/slide1.xml.rels | sed "s/image1\.JPG/slide-${slide}.png/g" > ../slides/_rels/slide-$1.xml.rels
-	add_slide $1
+	cat ../slides/_rels/slide1.xml.rels | sed "s/image1\.JPG/slide-${1}.png/g" > ../slides/_rels/slide-$1.xml.rels
+	add_slide $1 $2
 }
 
 pushd "$pptname"/ppt/media/
 count=`ls -ltr | wc -l`
-for (( slide=$count-2; slide>=0; slide-- ))
+slideNum=0
+count=$((count-1))
+#for (( slide=$count-1; slide>=1; slide-- ))
+for name in `seq -w $count -1 1`;
 do
-	echo "Processing "$slide
-	make_slide $slide
+    echo "Processing " "$slideNum" " slide-$name"
+    make_slide $name $slideNum
+    slideNum=$((slideNum+1))
 done
 
 if [ "$makeWide" = true ]; then

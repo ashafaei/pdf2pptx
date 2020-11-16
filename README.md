@@ -13,7 +13,11 @@ Simply explained, I convert all the slides to high-quality image files first, an
 * By default the output powerpoint project is in the widescreen mode. If your slides are not for widescreen you can alternatively run `./pdf2pptx.sh test.pdf notwide` to generate a 4:3 standard PPTX project.
 
 # Dependencies
-* You need `convert` from [ImageMagick] (http://www.imagemagick.org/script/binary-releases.php)
+* you need :
+** `convert` from [ImageMagick] (http://www.imagemagick.org/script/binary-releases.php)
+** `pdftoppm` from [poppler](https://cgit.freedesktop.org/poppler/poppler)
+*** debian : apt-get install poppler-utils
+*** archlinux : pacman -S poppler
 * `zip` and `sed`
 * (Optional) `perl`, `python`, or `ruby` if you use a symlink to pdf2pptx.sh
 

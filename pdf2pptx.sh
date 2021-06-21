@@ -53,7 +53,7 @@ fi
 mydir=$(dirname "$mypath")
 
 pptname="$1.pptx.base"
-fout=$(basename $1 .pdf)".pptx"
+fout=$(basename "$1" .pdf)".pptx"
 rm -rf "$pptname"
 cp -r "$mydir"/template "$pptname"
 

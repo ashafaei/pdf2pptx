@@ -30,7 +30,11 @@ if [ -d "$tempname" ]; then
 fi
 
 mkdir "$tempname"
-convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
+n_pages=$(pdfinfo "$1" | grep Pages | awk '{print $2}')
+for ((i=0; i<n_pages; i++))
+do
+    convert -density $density $colorspace -resize "x${resolution}" "$1[$i]" "$tempname"/slide-$i.png
+done
 
 if [ $? -eq 0 ]; then
 	echo "Extraction succ!"

@@ -34,13 +34,15 @@ n_pages=$(pdfinfo "$1" | grep Pages | awk '{print $2}')
 for ((i=0; i<n_pages; i++))
 do
     convert -density $density $colorspace -resize "x${resolution}" "$1[$i]" "$tempname"/slide-$i.png
+    returncode=$?
+    if [ $returncode -ne 0 ]; then break; fi
 done
 
-if [ $? -eq 0 ]; then
+if [ $returncode -eq 0 ]; then
 	echo "Extraction succ!"
 else
 	echo "Error with extraction"
-	exit
+	exit $returncode
 fi
 
 if (which perl > /dev/null); then

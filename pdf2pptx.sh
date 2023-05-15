@@ -30,7 +30,20 @@ if [ -d "$tempname" ]; then
 fi
 
 mkdir "$tempname"
-n_pages=$(pdfinfo "$1" | grep Pages | awk '{print $2}')
+
+# Set return code of piped command to first nonzero return code
+set -o pipefail
+n_pages=$(identify "$1" | wc -l)
+returncode=$?
+if [ $returncode -ne 0 ]; then
+   echo "Unable to count number of PDF pages, exiting"
+   exit $returncode
+fi
+if [ $n_pages -eq 0 ]; then
+   echo "Empty PDF (0 pages), exiting"
+   exit 1
+fi
+
 for ((i=0; i<n_pages; i++))
 do
     convert -density $density $colorspace -resize "x${resolution}" "$1[$i]" "$tempname"/slide-$i.png

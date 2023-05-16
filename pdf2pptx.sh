@@ -30,13 +30,32 @@ if [ -d "$tempname" ]; then
 fi
 
 mkdir "$tempname"
-convert -density $density $colorspace -resize "x${resolution}" "$1" "$tempname"/slide.png
 
-if [ $? -eq 0 ]; then
+# Set return code of piped command to first nonzero return code
+set -o pipefail
+n_pages=$(identify "$1" | wc -l)
+returncode=$?
+if [ $returncode -ne 0 ]; then
+   echo "Unable to count number of PDF pages, exiting"
+   exit $returncode
+fi
+if [ $n_pages -eq 0 ]; then
+   echo "Empty PDF (0 pages), exiting"
+   exit 1
+fi
+
+for ((i=0; i<n_pages; i++))
+do
+    convert -density $density $colorspace -resize "x${resolution}" "$1[$i]" "$tempname"/slide-$i.png
+    returncode=$?
+    if [ $returncode -ne 0 ]; then break; fi
+done
+
+if [ $returncode -eq 0 ]; then
 	echo "Extraction succ!"
 else
 	echo "Error with extraction"
-	exit
+	exit $returncode
 fi
 
 if (which perl > /dev/null); then
